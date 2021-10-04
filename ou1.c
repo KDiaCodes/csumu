@@ -1,4 +1,4 @@
-//namn = Samuel Kenrick
+//namn = Samuel K
 //cs-id = oi21skk
 
 #include <stdio.h>
