@@ -7,19 +7,17 @@
 void start (void){
   printf("Program information\n");
   printf("The program reads in the number of judges and the score from each judge.\n");
-  printf("Then it calculates the average score without regard to the lowest\nand highest judge score. Finally it prints the results (the highest, the\nlowest and the final average score).\n\n");
+  printf("Then it calculates the average score without regard to the lowest and \nhighest judge score. Finally it prints the results (the highest, the\nlowest and the final average score).\n\n");
 }
 
 //Function to ask the user how many judges they would like.
-int JudgeQuery (void) {
+int judgeQuery (){
   int userInput;
   do{
     printf("Number of judges (min 3 and max 10 judges)? ");
     scanf("%d", &userInput);
-    if (userInput <= 10 && userInput >= 3) {
-      return userInput;
-    }
   } while(userInput > 10 || userInput < 3);
+  return userInput;
 }
 
 //function that returns an array of scores to main() 
@@ -33,14 +31,14 @@ float *readScores(float *arr, int nrJudges) {
 
 //function that prints out each judge's score
 void printScores (float *n, int nrJudges) {
-  printf("Loading scores:\n");
+  printf("\nLoaded scores:\n");
   for (int i = 1; i <= (nrJudges); i++) {
     printf("Judge %d: %.1f \n", i, n[i-1]);
   }
 }
 
 //Bubble sort to sort the array in ascending order
-float *sortArray (float a[ ], int nrJudges) {
+float *sortArray (float *a, int nrJudges) {
   int i, j;
   float temp;
   int Swap = 1;
@@ -59,55 +57,46 @@ float *sortArray (float a[ ], int nrJudges) {
   return a;
 }
 
-//function to print the highest score
-void maxScore (float *n, int nrJudges) {
-  printf("Highest judge score: %.1f\n", n[nrJudges-1]);
-}
-
-//function to print the lowest score
-void minScore(float *n) {
-  printf("Lowest judge score: %.1f\n", n[0]);
-}
-
 //function to first aquire the total sum of the scores (not including the largest and smallest) and print the average
-void averageWeight(float *n, int nrJudges) {
+void averageWeight(float *p, int nrJudges) {
+  printf("Highest judge score: %.1f\n", p[nrJudges-1]);
+  printf("Lowest judge score: %.1f\n", p[0]);
   float sum = 0;
   for (int i = 1; i <= (nrJudges-2); i++) {
-    sum = sum + n[i];
+    sum = sum + p[i];
   } 
   printf("Final average score: %.1f \n", sum/(nrJudges-2));
 }
 
 int main (void) {
-  int nrJudges, menu = 1;
+  int nrJudges;
   
-//calling the start function to print the beginning text
+  //calling the start function to print the beginning text
   start();
 
-//setting nrJudges to the return value of the JudgeQuery function
-  nrJudges = JudgeQuery();
+  //setting nrJudges to the return value of the JudgeQuery function
+  nrJudges = judgeQuery();
 
   printf("\n");
   
   float *n;
   float arr[nrJudges];
-//setting the array n to the returning array from readScores
+  //setting the array n to the returning array from readScores
   n = readScores(arr, nrJudges);
 
-//printing the scores contained in n
+  //printing the scores contained in n
   printScores(n, nrJudges);
 
-//sorting the array in ascending order
-  n = sortArray(n, nrJudges);
+  //sorting the array in ascending order -
+  float *p;
+  p = sortArray(n, nrJudges);
   
-  printf("\nFinal results:\n");
-  //calling maxScore to print the largest score
-  maxScore(n, nrJudges);
-  //calling minScore to print the smallest score
-  minScore(n);
+  printf("\nFinal result:\n");
+  
   //calling for the average, not accounting for the largest and smallest scores
-  averageWeight(n, nrJudges);
+  averageWeight(p, nrJudges);
 
-//end main()
+  //end main()
   return 0;
+
 }
