@@ -23,7 +23,10 @@ int main(void){
   int cols = 20;
   cell field[rows][cols];
   initField(rows, cols, field);
-  
+  printf("Select one of the following options:");
+  printf("(enter) Step\n");
+  printf("(any) Exit\n");
+  int ch = getchar();
   return 0;
 }
 
