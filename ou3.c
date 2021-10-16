@@ -19,6 +19,11 @@ void loadCustom(const int rows, const int cols, cell field[rows][cols]);
 char getStartStateChoice(void);
 
 int main(void){
+  int rows = 20;
+  int cols = 20;
+  cell field[rows][cols];
+  initField(rows, cols, field);
+  
   return 0;
 }
 
