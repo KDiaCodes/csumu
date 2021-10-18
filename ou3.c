@@ -10,7 +10,9 @@ typedef struct {
   char next;
 } cell;
 
-void initField (const int rows, const int cols, cell field[rows][cols]);
+void initField(const int rows, const int cols, cell field[rows][cols]);
+void printGame(const int rows, const int cols, cell field[rows][cols]);
+void nextGen(const int rows, const int cols, cell field[rows][cols]);
 void clearField(const int rows, const int cols, cell field[rows][cols]);
 void loadGlider(const int rows, const int cols, cell field[rows][cols]);
 void loadSemaphore(const int rows, const int cols, cell field[rows][cols]);
@@ -23,11 +25,67 @@ int main(void){
   int cols = 20;
   cell field[rows][cols];
   initField(rows, cols, field);
-  printf("Select one of the following options:");
-  printf("(enter) Step\n");
-  printf("(any) Exit\n");
-  int ch = getchar();
+  int exit = 0;
+  while (exit == 0) {
+    
+    printGame(rows, cols, field);
+    nextGen(rows, cols, field);
+    printf("Select one of the following options:\n");
+    printf("(enter) Step\n");
+    printf("(any) Exit\n");
+    char ch = (char)getchar();
+    if (ch != '\n'){
+      exit = 1;
+    } /*else {
+      nextGen(rows, cols, field);
+    }*/
+  }
+
   return 0;
+}
+
+void printGame(const int rows, const int cols, cell field[rows][cols]) {
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      printf("%c ", field[i][j].current);
+    }
+    printf("\n");
+  }
+}
+void nextGen(const int rows, const int cols, cell field[rows][cols]){
+  int liveNeighbours = 0;
+  for (int k = 0; k < rows; k++) {
+    for (int l = 0; l < cols; l++) {
+      liveNeighbours = 0;
+      for (int r = k-1; r <= (k+1); r++) {
+        for (int c = l-1; c <= (l+1); c++) {
+          if (r == k && c == l) continue;
+          if (field[r][c].current == 'X')liveNeighbours++;
+        }
+      }
+      
+      if (liveNeighbours <= 1) {
+        field[k][l].next = '.';
+      } else if ((liveNeighbours == 2) && (field[k][l].current == 'X')) {
+        field[k][l].next = 'X';
+      } else if ((liveNeighbours == 2) && (field[k][l].current == '.')) {
+        field[k][l].next = '.';
+      } else if (liveNeighbours == 3) {
+        field[k][l].next = 'X';
+      } else if (liveNeighbours >= 4) {
+        field[k][l].next = '.';
+      }
+      
+    }
+  }
+  for (int n = 0; n < rows; n++) {
+    for (int m = 0; m < cols; m++) {
+      field[n][m].current = field[n][m].next;
+    }
+  }
+
+
+
 }
 
 void initField(const int rows, const int cols, cell field[rows][cols]) {
@@ -69,7 +127,7 @@ char getStartStateChoice(void){
   return ch;
 }
 
-void cleadField(const int rows, const int cols, cell field[rows][cols]){
+void clearField(const int rows, const int cols, cell field[rows][cols]){
   for (int r = 0; r < rows; r++) {
     for (int c = 0; c < cols; c++) {
       field[r][c].current = DEAD;
