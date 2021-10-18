@@ -60,20 +60,21 @@ void nextGen(const int rows, const int cols, cell field[rows][cols]){
       for (int r = k-1; r <= (k+1); r++) {
         for (int c = l-1; c <= (l+1); c++) {
           if (r == k && c == l) continue;
-          if (field[r][c].current == 'X')liveNeighbours++;
+          if (r < 0 || c < 0 || r >= rows || c >= cols) continue;
+          if (field[r][c].current == ALIVE)liveNeighbours++;
         }
       }
       
       if (liveNeighbours <= 1) {
-        field[k][l].next = '.';
-      } else if ((liveNeighbours == 2) && (field[k][l].current == 'X')) {
-        field[k][l].next = 'X';
-      } else if ((liveNeighbours == 2) && (field[k][l].current == '.')) {
-        field[k][l].next = '.';
+        field[k][l].next = DEAD;
+      } else if ((liveNeighbours == 2) && (field[k][l].current == ALIVE)) {
+        field[k][l].next = ALIVE;
+      } else if ((liveNeighbours == 2) && (field[k][l].current == DEAD)) {
+        field[k][l].next = DEAD;
       } else if (liveNeighbours == 3) {
-        field[k][l].next = 'X';
+        field[k][l].next = ALIVE;
       } else if (liveNeighbours >= 4) {
-        field[k][l].next = '.';
+        field[k][l].next = DEAD;
       }
       
     }
