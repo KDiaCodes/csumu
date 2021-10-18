@@ -101,11 +101,11 @@ void nextGen(const int rows, const int cols, cell field[rows][cols]){
       // resetting
       liveNeighbours = 0;
 
-      //these two for loops check a 3x3 section in our array
+      // these two for loops check a 3x3 section in our array
       for (int r = k-1; r <= (k+1); r++) {
         for (int c = l-1; c <= (l+1); c++) {
 
-          //if the square we are checking is outside the array or is the centre-piece we skip it
+          // if the square we are checking is outside the array or is the centre-piece we skip it
           if (r < 0 || c < 0 || r >= rows || c >= cols || (r == k && c == l)) continue;
 
           // if its a valid square and it is alive, add 1 to liveNeighbours
@@ -129,7 +129,7 @@ void nextGen(const int rows, const int cols, cell field[rows][cols]){
     }
   }
 
-  //setting each square to its new value simultaneously
+  // setting each square to its new value simultaneously
   for (int n = 0; n < rows; n++) {
     for (int m = 0; m < cols; m++) {
       field[n][m].current = field[n][m].next;
@@ -181,7 +181,7 @@ void initField(const int rows, const int cols, cell field[rows][cols]) {
  */
 char getStartStateChoice(void){
   int ch;
-  //shouldnt ch be a char?
+  // shouldnt ch be a char?
   
   printf("Select field spec to load ([G]lider, [S]emaphore, [R]andom ");
   printf("or [C]ustom): ");
@@ -246,8 +246,24 @@ void loadSemaphore(const int rows, const int cols, cell field[rows][cols]){
  *              is alive.
  */
 void loadRandom(const int rows, const int cols, cell field[rows][cols]){
+  
+  // declaration for the random number
+  srand(time(NULL));
+
+  // two for loops to go through each position in our array
   for (int p = 0; p < rows; p++) {
     for (int q = 0; q < cols; q++) {
+      
+      // resetting the random number and generating either the number 1 or 0
+      int state = 0;    
+      state = (rand() & 1);
+
+      // if the number is 1 set the position to ALIVE. Otherwise set to DEAD.
+      if (state == 1) {
+        field[p][q].current = ALIVE;
+      } else {
+        field[p][q].current = DEAD;
+      }
 
     }
   }
