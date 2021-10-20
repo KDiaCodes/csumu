@@ -40,9 +40,10 @@ int main(void){
   // initiating the menu
   initField(rows, cols, field);
   
-  /* defining a variable to keep
-  our loop active for displaying future generations */
+  // defining a variable to keep our loop active for displaying future generations
   int exit = 0;
+
+  //defining a while loop we want to keep running as long as the user asks for the next generation.
   while (exit == 0) {
     
     // printing this generation and setting the next one
@@ -73,6 +74,7 @@ int main(void){
  * Output:      Nothing outputed except text to screen.
  */
 void printGame(const int rows, const int cols, cell field[rows][cols]) {
+  // looping through, printing every positions value along the row before going to the next row
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       printf("%c ", field[i][j].current);
@@ -87,29 +89,32 @@ void printGame(const int rows, const int cols, cell field[rows][cols]) {
  * Input:       rows - the number of rows in the field
  *              cols - the number of columns in the field
  *              field - the field array
- * Output:      The field array's current and next values change.
+ * Output:      The field array's current values change to the next generation's.
  */
 void nextGen(const int rows, const int cols, cell field[rows][cols]){
   
   // defining a variable to keep track of how many neighbours are alive
   int liveNeighbours = 0;
 
-  // first two for loops are for the square we are maybe looking to change
+  // these two for loops are to go through our entire field position by position.
   for (int k = 0; k < rows; k++) {
     for (int l = 0; l < cols; l++) {
 
-      // resetting
+      // resetting the counter
       liveNeighbours = 0;
 
-      // these two for loops check a 3x3 section in our array
-      for (int r = k-1; r <= (k+1); r++) {
-        for (int c = l-1; c <= (l+1); c++) {
+      /* these two for loops check a 3x3 section in our array with k and l as the centre position
+      *  the localR variable checks for the current row, above row and below row for the current position
+      *  the localC variable checks for the current column, above column and below column for the current position
+      */
+      for (int localR = k-1; localR <= (k+1); localR++) {
+        for (int localC = l-1; localC <= (l+1); localC++) {
 
           // if the square we are checking is outside the array or is the centre-piece we skip it
-          if (r < 0 || c < 0 || r >= rows || c >= cols || (r == k && c == l)) continue;
+          if (localR < 0 || localC < 0 || localR >= rows || localC >= cols || (localR == k && localC == l)) continue;
 
           // if its a valid square and it is alive, add 1 to liveNeighbours
-          if (field[r][c].current == ALIVE)liveNeighbours++;
+          if (field[localR][localC].current == ALIVE)liveNeighbours++;
         }
       }
       
@@ -130,9 +135,9 @@ void nextGen(const int rows, const int cols, cell field[rows][cols]){
   }
 
   // setting each square to its new value simultaneously
-  for (int n = 0; n < rows; n++) {
-    for (int m = 0; m < cols; m++) {
-      field[n][m].current = field[n][m].next;
+  for (int r = 0; r < rows; r++) {
+    for (int c = 0; c < cols; c++) {
+      field[r][c].current = field[r][c].next;
     }
   }
 
