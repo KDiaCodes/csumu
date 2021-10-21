@@ -278,9 +278,8 @@ void loadRandom(const int rows, const int cols, cell field[rows][cols]){
       int state = (rand() & 1);
 
       // if the number is 1 set the position to ALIVE. Otherwise set to DEAD.
-      if (state == 1) {
-        field[p][q].current = ALIVE;
-      } else {
+      if (state == 1) field[p][q].current = ALIVE;
+      else {
         field[p][q].current = DEAD;
       }
 
