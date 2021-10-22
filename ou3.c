@@ -43,7 +43,7 @@ int main(void){
   initField(rows, cols, field);
   
   // defining a variable to keep our loop active for displaying future generations
-  char ch;
+  int ch;
   //defining a do while loop we want to keep running as long as the user asks for the next generation.
   do {
     
@@ -56,7 +56,7 @@ int main(void){
     printf("Select one of the following options:\n");
     printf("(enter) Step\n");
     printf("(any) Exit\n");
-    ch = (char)getchar();
+    ch = getchar();
 
   } while (ch == '\n');
 
@@ -81,7 +81,7 @@ void printGame(const int rows, const int cols, cell field[rows][cols]) {
   }
 }
 
-/* Function:    inextGen
+/* Function:    nextGen
  * Description: finds how many neighbours are alive and changes
  *              based off of that amount.
  * Input:       rows - the number of rows in the field
@@ -123,13 +123,12 @@ void nextGen(const int rows, const int cols, cell field[rows][cols]){
  *              field - the field array
  *              currentRow - the current positions row value
  *              currentCol - the current positions column value
- * Output:      The field array's current values change to the next generation's.
+ * Output:      Returns the amount of living neighbours
  */
 int checkNeighbours(const int rows, const int cols, cell field[rows][cols], int currentRow, int currentCol){
   int liveNeighbours = 0;
 
-  /* these two for loops check a 3x3 section in our array with k and l as the centre position
-  *  the localR variable checks for the current row, above row and below row for the current position
+  /* the localR variable checks for the current row, above row and below row for the current position
   *  the localC variable checks for the current column, above column and below column for the current position
   */
   for (int localR = currentRow-1; localR <= (currentRow+1); localR++) {
@@ -201,7 +200,6 @@ void initField(const int rows, const int cols, cell field[rows][cols]) {
  */
 char getStartStateChoice(void){
   int ch;
-  // shouldnt ch be a char?
   
   printf("Select field spec to load ([G]lider, [S]emaphore, [R]andom ");
   printf("or [C]ustom): ");
