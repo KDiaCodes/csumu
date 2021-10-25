@@ -135,10 +135,11 @@ int checkNeighbours(const int rows, const int cols, cell field[rows][cols], int 
     for (int localC = currentCol-1; localC <= (currentCol+1); localC++) {
 
       // if the square we are checking is outside the array or is the centre-piece we skip it
-      if (localR < 0 || localC < 0 || localR >= rows || localC >= cols || (localR == currentRow && localC == currentCol)) continue;
+      if (localR >= 0 && localC >= 0 && localR < rows && localC < cols && (localR != currentRow || localC != currentCol)) {
       
-      // if its a valid square and it is alive, add 1 to liveNeighbours
-      if (field[localR][localC].current == ALIVE)liveNeighbours++;
+        // if its a valid square and it is alive, add 1 to liveNeighbours
+        if (field[localR][localC].current == ALIVE)liveNeighbours++;
+      }
     }
   }
   return liveNeighbours;
